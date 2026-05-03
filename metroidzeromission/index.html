@@ -1,89 +1,100 @@
-<html>
-    <head>
-        <script src="/js/all.js"></script>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Metroid: Zero Mission</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      height: 100vh;
+      background-color: #000;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      color: #FFD700;
+      font-family: Arial, sans-serif;
+      text-align: center;
+    }
 
-        <style>
-            body, html {
-                margin: 0;
-                padding: 0;
-            }
+    h2 {
+      margin: 20px 0;
+    }
 
-            #intermission {
-                position: fixed;
-                top: 0;
-                left: 0;
-                width: 100vw;
-                height: 100vh;
-                background: #000;
-                color: #fff;
-                display: flex;
-                flex-direction: column;
-                align-items: center;
-                justify-content: center;
-                font-family: Arial, sans-serif;
-                gap: 20px;
-                z-index: 999;
-            }
+    .image-preview {
+      width: 200px;
+      height: 200px;
+      border-radius: 10%;
+      overflow: hidden;
+      margin-bottom: 20px;
+      border: 3px solid #FFD700;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: #111;
+    }
 
-            #intermission h2 {
-                margin: 0;
-            }
+    .image-preview img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      image-rendering: pixelated;
+    }
 
-            #intermission p {
-                margin: 0;
-                color: #aaa;
-                font-size: 14px;
-            }
+    .button-container {
+      display: flex;
+      gap: 20px;
+    }
 
-            .btn {
-                padding: 12px 28px;
-                font-size: 16px;
-                cursor: pointer;
-                border: none;
-                border-radius: 6px;
-                background: #fff;
-                color: #000;
-            }
+    button {
+      background-color: #FFD700;
+      color: #000;
+      font-size: 16px;
+      font-weight: bold;
+      padding: 12px 24px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: transform 0.2s, background 0.2s;
+    }
 
-            .btn.secondary {
-                background: transparent;
-                color: #aaa;
-                border: 1px solid #444;
-            }
-        </style>
-    </head>
-    <body>
-        <div id="intermission">
-            <h2>Metroid: Zero Mission</h2>
-            <p>You'll need the ROM file to play. Download it first, or continue if you already have it.</p>
-            <button class="btn" onclick="downloadRom()">Download metroid.gba</button>
-            <button class="btn secondary" onclick="startGame()">I already have it — Play</button>
-        </div>
+    button:hover {
+      transform: scale(1.05);
+      background: #ffea4d;
+    }
+  </style>
+</head>
+<body>
+  <h2>Do you want to download <strong>metroid.gba</strong>?</h2>
 
-        <div style="width:100%;height:100%;max-width:100%">
-            <div id="game"></div>
-        </div>
+  <div class="image-preview">
+    <img src="zero.jpeg" alt="Metroid: Zero Mission">
+  </div>
 
-        <script>
-            function downloadRom() {
-                const a = document.createElement('a');
-                a.href = 'metroid.gba';
-                a.download = 'metroid.gba';
-                a.click();
-                setTimeout(startGame, 1000);
-            }
+  <div class="button-container">
+    <button onclick="downloadAndRedirect()">Yes, download and redirect to emulator</button>
+    <button onclick="skipToEmulator()">No, skip to emulator</button>
+  </div>
 
-            function startGame() {
-                document.getElementById('intermission').style.display = 'none';
-                EJS_player = "#game";
-                EJS_pathtodata = "/emulatorjs/data/";
-                EJS_gameUrl = "metroid.gba";
-                EJS_core = 'gba';
+  <script>
+    function downloadAndRedirect() {
+      const link = document.createElement("a");
+      link.href = "metroid.gba";
+      link.download = "metroid.gba";
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
 
-                const script = document.createElement('script');
-                script.src = '/emulatorjs/data/loader.js';
-                document.body.appendChild(script);
-            }
-        </script>
-    </body>
+      setTimeout(() => {
+        window.location.href = "https://bguhm.github.io/library/emulatorjs/index.html";
+      }, 2000);
+    }
+
+    function skipToEmulator() {
+      window.location.href = "https://bguhm.github.io/library/emulatorjs/index.html";
+    }
+  </script>
+</body>
 </html>
