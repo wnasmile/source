@@ -7,19 +7,83 @@
                 margin: 0;
                 padding: 0;
             }
+
+            #intermission {
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100vw;
+                height: 100vh;
+                background: #000;
+                color: #fff;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                font-family: Arial, sans-serif;
+                gap: 20px;
+                z-index: 999;
+            }
+
+            #intermission h2 {
+                margin: 0;
+            }
+
+            #intermission p {
+                margin: 0;
+                color: #aaa;
+                font-size: 14px;
+            }
+
+            .btn {
+                padding: 12px 28px;
+                font-size: 16px;
+                cursor: pointer;
+                border: none;
+                border-radius: 6px;
+                background: #fff;
+                color: #000;
+            }
+
+            .btn.secondary {
+                background: transparent;
+                color: #aaa;
+                border: 1px solid #444;
+            }
         </style>
     </head>
     <body>
+        <div id="intermission">
+            <h2>Metroid: Zero Mission</h2>
+            <p>You'll need the ROM file to play. Download it first, or continue if you already have it.</p>
+            <button class="btn" onclick="downloadRom()">Download metroid.gba</button>
+            <button class="btn secondary" onclick="startGame()">I already have it — Play</button>
+        </div>
+
         <div style="width:100%;height:100%;max-width:100%">
             <div id="game"></div>
         </div>
+
         <script>
-            EJS_player = "#game";
-            EJS_core = "CORE_NAME";
-            EJS_pathtodata = "/emulatorjs/data/";
-            EJS_gameUrl = "metroid.gba";
-            EJS_core = 'gba';
+            function downloadRom() {
+                const a = document.createElement('a');
+                a.href = 'metroid.gba';
+                a.download = 'metroid.gba';
+                a.click();
+                setTimeout(startGame, 1000);
+            }
+
+            function startGame() {
+                document.getElementById('intermission').style.display = 'none';
+                EJS_player = "#game";
+                EJS_pathtodata = "/emulatorjs/data/";
+                EJS_gameUrl = "metroid.gba";
+                EJS_core = 'gba';
+
+                const script = document.createElement('script');
+                script.src = '/emulatorjs/data/loader.js';
+                document.body.appendChild(script);
+            }
         </script>
-        <script src="/emulatorjs/data/loader.js"></script>
     </body>
 </html>
